@@ -45,7 +45,8 @@ class models():
         
         #print("X = ", X.shape)
         #print("y =",y.shape)
-        print(self.x_train.shape)
+        #print(self.x_train.shape)
+        #print(self.x_test.shape)
         #print(self.x_train.shape)
         #return X,y
     
@@ -56,6 +57,8 @@ class models():
         #X = np.expand_dims(X, -1)
         self.x_train = np.expand_dims(self.x_train, -1)
         self.x_test = np.expand_dims(self.x_test,-1)
+        print(self.x_train.shape)
+        print(self.x_test.shape)
         #print(X)
         #print(X[0].shape)
         #i = Input(shape=X[0].shape)
@@ -63,10 +66,10 @@ class models():
         x = Conv2D(32, (3,3), strides = 2, activation = 'relu',padding='same',kernel_regularizer=regularizers.l2(0.0005))(i)
         x = BatchNormalization()(x)
         x = MaxPooling2D((2,2))(x)
-        #x = Dropout(0.2)(x)
+        x = Dropout(0.2)(x)
         x = Conv2D(64, (3,3), strides = 2, activation = 'relu',padding='same',kernel_regularizer=regularizers.l2(0.0005))(x)
         x = BatchNormalization()(x)
-        #x = Dropout(0.4)(x)
+        x = Dropout(0.4)(x)
         x = Conv2D(128, (3,3), strides = 2, activation = 'relu',padding='same',kernel_regularizer=regularizers.l2(0.0005))(x)
         x = BatchNormalization()(x)
         x = MaxPooling2D((2,2))(x)
@@ -191,8 +194,8 @@ class models():
 
 
 if __name__ == "__main__":
-    model_name = "rnn" # can be cnn/dnn/rnn
-    path = "./pamap2.h5"
+    model_name = "cnn" # can be cnn/dnn/rnn
+    path = "./pamap_scaled2.h5"
     pamap = models(path)
     print("read h5 file....")
     pamap.read_h5()

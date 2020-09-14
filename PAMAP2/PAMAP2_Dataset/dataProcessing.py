@@ -10,6 +10,8 @@ import pandas as pd
 import numpy as np
 import math
 import h5py
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
+
 activityIDdict = {0: 'transient',
               1: 'lying',# no change in index
               2: 'sitting',# no change in index
@@ -87,6 +89,12 @@ def read_files():
     
     return dataCollection
 
+def scale(df):#pandas dataframe   
+    #scaler = MinMaxScaler()
+    scaler = StandardScaler()
+    df.iloc[:,[1,-1]] = scaler.fit_transform(df.iloc[:,[1,-1]] )#scale the data of column index [1:-1)
+    return df
+
 
 def dataCleaning(dataCollection):
     dataCollection = dataCollection.drop(['timestamp', 'handOrientation1', 'handOrientation2', 'handOrientation3', 'handOrientation4',
@@ -96,6 +104,7 @@ def dataCleaning(dataCollection):
     dataCollection = dataCollection.drop(dataCollection[dataCollection.activityID == 0].index) #removal of any row of activity 0 as it is transient activity which it is not used
     dataCollection = dataCollection.apply(pd.to_numeric, errors = 'coerce') #removal of non numeric data in cells
     dataCollection = dataCollection.dropna()
+    dataCollection = scale(dataCollection)
     #dataCollection = dataCollection.interpolate() 
     #removal of any remaining NaN value cells by constructing new data points in known set of data points
     #for i in range(0,4):
@@ -181,7 +190,7 @@ def plot_series(df, colname, act, subject, start, end):
 
 
 if __name__ == "__main__":
-    file_name = 'pamap1.h5'
+    file_name = 'pamap_scaled2.h5'
     window_size = 25
     data = read_files()
     data = dataCleaning(data)
@@ -193,7 +202,7 @@ if __name__ == "__main__":
     numpy_data = downsize(numpy_data) # downsize to 30%
     
     segment_data = segment(numpy_data, window_size)   
-    #save_data(segment_data, file_name)
+    save_data(segment_data, file_name)
     
 
     
