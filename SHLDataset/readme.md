@@ -15,7 +15,6 @@ The University of Sussex-Huawei Locomotion (SHL) dataset was used in our researc
 ## Data fusion model 
 ![alt text](https://github.com/jenhuluck/deep-learning-in-ADL/blob/master/SHLDataset/figures/fusion_model.png?raw=true)
 
-## Note
-I am still working on the project as the research project of my master degree. Please do not use the figures and results from this research. 
+
 
   
